@@ -20,41 +20,18 @@ class Register
     public function register()
     {   $users = new UsersModels();
        $test = $users->findAll();
-        // print_r($test);
+        print_r($test);
 
         $request = new Request();
         $submit = $request->post('register');
        // var_dump($submit);
         if (isset($submit)) {
            
-            $register = new UsersModels();
+            $register = new UsersModels($request->post('register'));
             $formRegister = new FormRegister($register);
             $controle = $formRegister->validate();
              
-            if (isset($controle)) {
-        
-                // On "nettoie" l'adresse email
-                $email = strip_tags($request->post('email'));
-                // On chiffre le mot de passe
-                $pass = password_hash($request->post('password'), PASSWORD_ARGON2I);
-        
-                $lastname = $request->post('lastname');
-                $firstname = $request->post('firstname');
-                $username = $request->post('username');
-        
-                $register->setEmail($email)
-                         ->setPassword($pass)
-                         ->setLastname($lastname)
-                         ->setFirstname($firstname)
-                         ->setUsername($username)
-                ;
-        
-                // On stocke l'utilisateur
-                $register->create();
-                
-        
-                
-            }
+          
             
         }
        
